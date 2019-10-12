@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>持久型的xss注入</title>
+</head>
+
+<body>
+    <div class="container">
+        <div>
+            <label for="comments">用户输入内容</label>
+            <input class="form-control" type="text" id="txt" />
+        </div>
+        <div >
+            <input class="btn btn-danger" type="button" id="add" value="提交进行xss持久攻击" />
+        </div>
+        <ul class="list-group">
+
+        </ul>  
+    </div>
+</body>
+<script src="../../node_modules/jquery/dist/jquery.js"></script>
+<script>
+    // 反射型 XSS 攻击
+    $(document).ready(function () {
+        function getContentList () {
+           // 获取列表并展示在页面上
+           $.get('/getContents').then(res => {
+             let list = '';
+             $.each(res.contents, (index, item) => {
+                    list += `<li class="list-group-item">${item.content}</li>`;
+                });
+                $('.list-group').html(list);
+           })
+        }
+        $('#add').click(function () {
+            let txt = $('#txt').val();
+            if ($.trim(txt)) {
+               // 不为空的情况下，调用服务端接口存储用户输入的内容
+               $.post('/addContent', { content: txt }).then(res => {
+                   getContentList();
+                   $('#txt').val('')
+               })
+            }
+        });
+
+    });
+
+</script>
+</html>

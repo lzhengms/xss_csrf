@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>dom型的xss注入</title>
+</head>
+
+<body>
+    <div class="container">
+        <div>
+            <label for="comments">用户输入内容</label>
+            <input class="form-control" type="text" id="txt" />
+        </div>
+        <div >
+            <input class="btn btn-danger" type="button" id="attck" value="提交" />
+        </div>
+        <ul class="list-group">
+
+        </ul>  
+    </div>
+</body>
+<script src="../../node_modules/jquery/dist/jquery.js"></script>
+<script>
+    // 反射型 XSS 攻击
+    $(document).ready(function () {
+        $('#attck').click(function () {
+            let txt = $('#txt').val();
+            //没有对输入内容进行过滤
+            if ($.trim(txt)) {
+                $('.list-group').append(`<li class="list-group-item">${txt}</li>`);
+                $('#txt').val('');
+            }
+        });
+    });
+
+</script>
+</html>
