@@ -1,10 +1,16 @@
 >  ### 运行
 
 1.进入XSS目录，运行node server.js
+
 2.dom型的xss攻击例子--直接访问地址: http://localhost:3000/domxss.html
+
 3.在输入框中输入<script>alert('test')</script>
+
 4.持久型的xss攻击例子--直接访问地址：http://localhost:3000/database.html
+
 5.持久型的xss攻击的预防例子--直接访问地址：http://localhost:3000/database_yufang.html
+
+
 
 > ## XSS 攻击
 
